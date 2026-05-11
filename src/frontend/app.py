@@ -2,8 +2,9 @@ import streamlit as st
 import requests
 import pandas as pd
 import plotly.graph_objects as go
+import os
 
-API_URL  = "http://fastapi:8000"
+API_URL  = os.getenv("API_URL", "https://localhost:8000")
 
 st.set_page_config(
     page_title="Telco Churn Prediction",
