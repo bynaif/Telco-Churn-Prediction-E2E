@@ -1,24 +1,22 @@
-version: "3.8"
-
 services:
-  fastapi:
-    build: .
-    ports:
-      - "8000:8000"
-    environment:
-      - MODEL_PATH=model/model.pkl
-    command: uvicorn src.backend.main:app --host 0.0.0.0 --port 8000
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+  - name: fastapi-backend
+    type: web
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    startCommand: uvicorn src.backend.main:app --host 0.0.0.0 --port 10000
+    envVars:
+      - key: MODEL_PATH
+        value: model/model.pkl
+      - key: PORT
+        value: 10000
 
-  streamlit:
-    build: .
-    ports:
-      - "8501:8501"
-    command: streamlit run src/frontend/app.py --server.port=8501 --server.address=0.0.0.0
-    depends_on:
-      fastapi:
-        condition: service_healthy
+  - name: streamlit-frontend
+    type: web
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    startCommand: streamlit run src/frontend/app.py --server.port 10000 --server.address 0.0.0.0
+    envVars:
+      - key: API_URL
+        value: https://fastapi-backend.onrender.com
+      - key: PORT
+        value: 10000
