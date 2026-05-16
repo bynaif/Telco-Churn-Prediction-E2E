@@ -8,7 +8,7 @@ services:
       - key: MODEL_PATH
         value: model/model.pkl
       - key: PORT
-        value: 10000
+        value: "10000"
 
   - name: streamlit-frontend
     type: web
@@ -18,5 +18,3 @@ services:
     envVars:
       - key: API_URL
         value: https://fastapi-backend.onrender.com
-      - key: PORT
-        value: 10000
