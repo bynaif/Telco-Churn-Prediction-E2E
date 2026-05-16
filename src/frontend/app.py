@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import os
 
-API_URL  = os.getenv("API_URL", "https://localhost:8001")
+API_URL  = os.getenv("API_URL", "http://localhost:8001")
 
 st.set_page_config(
     page_title="Telco Churn Prediction",
